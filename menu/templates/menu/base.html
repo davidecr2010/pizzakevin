@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    {% load static %}
+    <script src="{% static 'menu/script.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'menu/nav.css' %}" />
+    <link rel="stylesheet" href="{% static 'menu/style.css' %}">
+    <link href="{% static 'menu/favicon.ico' %}" rel="icon">
+    
+    <title>Pizza: {% block title %}{% endblock %}</title>
+  </head>
+
+  <body>
+    <div id="content-wrap">
+      <header class="header">
+        <div class="container logo-nav-container">
+          <a href="#" class="logo">Kevin's Pizza</a>
+          <span class="menu-icon">Menú</span>
+          <nav class="menu">
+            {% if request.user.is_authenticated %}
+                <ul>
+                    {%if request.user.is_superuser %}
+                        <li><a href="{% url 'show_order' %}">Orders</a></li>
+                    {% endif %}
+
+                <li><a href="{% url 'index' %}">Inicio</a></li>
+                <li><a href="{% url 'carrito' %}">Cart ({{ count }})</a></li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+
+                </ul>
+            {% else %}
+                <ul>
+                    <li><a href="{% url 'login' %}">login</a></li>
+                    <li><a href="{% url 'register' %}">Register</a></li>
+                </ul>
+            {% endif %}
+          </nav>
+        </div>
+      </header>
+
+      <main class="container p-5">
+        {% block main %}{% endblock %}
+      </main>
+    </div>
+
+
+    <script>
+      function add_item(item_name, item_price, item_size) {
+          modal = document.querySelector("#contents");
+          // Campos de formulario ocultos para pasar valor
+          modal.innerHTML = `
+              <input type="hidden" name="name" id="name" value="${item_name}">
+              <input type="hidden" name="item_price" id="item_price" value="${item_price}">
+              <input type="hidden" name="size" id="size" value="${item_size}">
+          `;
+          // Ingredientes especiales para pizza
+          if (item_name == "Pizza Regular  --  Special" || item_name == "Pizza Sicillian  --  Special") {
+              modal.innerHTML += `
+                  <input type="hidden" name="special" id="special" value="{{ special }}">
+              `;
+          }
+          // Item name
+          modal.innerHTML += `
+              <label style="font-weight: 500;">${item_name}</label>`;
+          if (item_size != "") {
+              modal.innerHTML += ` <label style="font-weight: 500;"> (${item_size}) </label>`;
+          }
+          modal.innerHTML += `<br><label style="font-weight: 500;"> - $${item_price}</label>`;
+
+
+          // Agregar coberturas (extras)
+          if (item_name == "Pizza Regular  --  1 topping" || item_name == "Pizza Sicillian  --  1 Item") {
+              modal.innerHTML += `
+              <hr>
+              <label style="font-size: 14.5px; font-weight: 500;">Toppings:</label>
+              <div class="form-group">
+                  <select class="form-control form-control-sm" name="extra1" id="extra1">
+                      {% for topping in toppings %}
+                      <option value="{{ topping.name }}">{{ topping.name }}</option>
+                      {% endfor %}
+                  </select>
+              </div>
+              `;
+          }
+          else if (item_name == "Pizza Regular  --  2 toppings" || item_name == "Pizza Sicillian  --  2  Items") {
+              modal.innerHTML += `
+              <hr>
+              <label style="font-size: 14.5px; font-weight: 500;">Toppings:</label>
+              {% for i in "12" %}
+                  <div class="form-group">
+                      <select class="form-control form-control-sm" name="extra{{i}}" id="extra{{i}}">
+                          {% for topping in toppings %}
+                          <option value="{{ topping.name }}">{{ topping.name }}</option>
+                          {% endfor %}
+                      </select>
+                  </div>
+              {% endfor %}
+              `;
+          }
+          else if (item_name == "Pizza Regular  --  3 toppings" || item_name == "Pizza Sicillian  --  3  Items") {
+              modal.innerHTML += `
+              <hr>
+              <label style="font-size: 14.5px; font-weight: 500;">Toppings:</label>
+              {% for i in "123" %}
+                  <div class="form-group">
+                      <select class="form-control form-control-sm" name="extra{{i}}" id="extra{{i}}">
+                          {% for topping in toppings %}
+                          <option value="{{ topping.name }}">{{ topping.name }}</option>
+                          {% endfor %}
+                      </select>
+                  </div>
+              {% endfor %}
+              `;
+          }
+          // Submit button
+          modal.innerHTML += `
+              <hr>
+              <button type="submit" class="btn btn-sm btn-link">
+                  <img src="static/menu/carrito.png" class="cart3" title="Add Item">
+              </button>
+          `;
+          $("#add_items_modal").modal('show');
+      }
+
+      function add_sub(item_name, item_price, item_size) {
+          modal = document.querySelector("#contents");
+          // Campos de formulario ocultos para pasar valor
+          modal.innerHTML = `
+              <input type="hidden" name="name" id="name" value="${item_name}">
+              <input type="hidden" name="item_price" id="item_price" value="${item_price}">
+              <input type="hidden" name="size" id="size" value="${item_size}">
+          `;
+          // Item name
+          modal.innerHTML += `
+              <label style="font-weight: 500;">${item_name}</label>`;
+          if (item_size != "") {
+              modal.innerHTML += ` <label style="font-weight: 500;"> (${item_size}) </label>`;
+          }
+          modal.innerHTML += `<br><label style="font-weight: 500;"> - $${item_price}</label>
+          <hr>
+          <div class="container row" style="text-align: left;">
+              <label style="font-size: 14.7px; font-weight: 500;">Extras:</label>
+          </div>
+          `;
+          // Agregar extras (para subs)
+          
+          modal.innerHTML += `
+            {% for extra in extras %}
+            <div class="form-check">
+                      <label class="form-check-label">
+                          <input type="hidden" name="price{{ extra.id }}" id="price{{ extra.id }}" value="0.00">
+                          <input type="checkbox" class="form-check-input" value="{{ extra.name }}" name="extra{{ extra.id }}" id="extra{{ extra.id }}" onclick="change_price('{{ extra.price }}', 'price{{ extra.id }}')">
+                          {{ extra.name }} - $ {{ extra.price }}
+                      </label>
+                  </div>
+                 
+              {% endfor %}
+              `;
+          
+          
+          // Submit button
+          modal.innerHTML += `
+              <hr style="margin: 8px;">
+              <button type="submit" class="btn btn-sm btn-link">
+                  <img src="static/menu/carrito.png" class="cart3" title="Add Item">
+              </button>
+          `;
+          $("#add_items_modal").modal('show');
+      }
+  </script>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+  </body>
+</html>
