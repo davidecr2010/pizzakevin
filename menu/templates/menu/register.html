@@ -1,0 +1,96 @@
+{% extends "menu/base.html" %} 
+
+{% block title %} 
+    Register 
+{% endblock %} 
+
+{%block main %}
+
+<div class="row">
+    <div class="col-lg-4"></div>
+    <div class="col-lg-4">
+        <div class="jumbotron jumbotron1">
+            {% if message %}
+            <div class="alert alert-danger">{{ message }}</div>
+            {% endif %}
+
+            <form action="{% url 'register' %}" method="POST">
+                {% csrf_token %}
+                <!-- First name -->
+                <div class="form-group">
+                    <input
+                        type="text"
+                        id="first_name"
+                        name="first_name"
+                        class="form-control"
+                        placeholder="First name"
+                        required
+                        autocomplete="off"
+                        autofocus
+                    />
+                </div>
+                <!-- Last name -->
+                <div class="form-group">
+                    <input
+                        type="text"
+                        id="last_name"
+                        name="last_name"
+                        class="form-control"
+                        placeholder="Last name"
+                        required
+                        autocomplete="off"
+                    />
+                </div>
+                <!-- Username -->
+                <div class="form-group">
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        class="form-control"
+                        placeholder="Username"
+                        required
+                        autocomplete="off"
+                    />
+                </div>
+                <!-- Email -->
+                <div class="form-group">
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        class="form-control"
+                        placeholder="Email"
+                        required
+                        autocomplete="off"
+                    />
+                </div>
+                <!-- Password1 -->
+                <div class="form-group">
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        class="form-control"
+                        placeholder="Password"
+                        required
+                    />
+                </div>
+                <!-- Register button -->
+                <button type="submit" class="btn btn-outline-primary">
+                    Registrarse
+                </button>
+            </form>
+            <br /><br />
+
+            <div class="mt-4">
+                <div class="d-flex justify-content-center links">
+                    ¿Ya tienes una cuenta?
+                    <a href="{% url 'login' %}" class="ml-2">Login</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock%}

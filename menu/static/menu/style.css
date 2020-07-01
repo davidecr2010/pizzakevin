@@ -1,0 +1,150 @@
+main .form-control{
+    display: inline-block;
+    width: auto;
+}
+
+
+main{
+    text-align: center;
+}
+
+main img{
+    max-width: 100%;
+}
+
+#page-container {
+    position: relative;
+    min-height: 100vh;
+}
+#hello-msg{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 25px;
+}
+.modal-body{
+    background: white;
+}
+.modal-header{
+    background: white;
+}
+
+
+.jumbotron1 {
+    padding-top: 12%;
+    padding-bottom: 10%;
+    border-style: outset;
+    border-radius: 3px;
+    border-color: #3dc7fe;
+    margin-bottom: 1%;
+    border-width: 1px;
+    width: auto;
+}
+
+.menu1 {
+    border-radius: 4px;
+    border-style: groove;
+    border-width: 2px;
+    padding-left: 0px;
+    padding-right: 0px;
+    border-color: #6c757d;
+    padding-top: 25px;
+    padding-bottom: 0px;
+    font-family: sans-serif;
+    font-weight: 600;
+}
+
+h3 {
+    font-weight: 700;
+}
+
+.cart {
+    max-height: 33px;
+    cursor: pointer;
+}
+
+.cart1 {
+    max-height: 28px;
+    cursor: pointer;
+}
+
+
+
+.popup {
+    position: relative;
+    animation-name: move;
+    animation-duration: 4s;
+    animation-fill-mode: forwards;
+}
+
+
+.item_list {
+    border-radius: 4px;
+    background: #e7e7e7d6;
+    border-style: groove;
+    border-width: 2px;
+    padding-left: 0px;
+    padding-right: 0px;
+    border-color: #000000;
+    padding-top: 25px;
+    padding-bottom: 0px;
+    font-family: sans-serif;
+    font-weight: 600;
+}
+
+.order {
+    border-radius: 3px;
+    background-color: #a314073d;
+    border-style: ridge;
+    border-color: #440000;
+    border-width: 1px;
+    
+}
+
+
+.cart2 {
+    max-height: 33px;
+    cursor: pointer;
+    margin-top: -10px;
+}
+
+.cart3 {
+    max-height: 50px;
+    cursor: pointer;
+}
+
+.order-modal1 {
+    font-family: sans-serif;
+    font-weight: 400;
+    border-style: solid;
+    border-color: white;
+    border-radius: 4px;
+    background: #5d5d5dc4;
+    border-width: 2px;
+    text-align: -webkit-auto;
+}
+
+sup {
+    font-size: 12px;
+}
+
+hr {
+    margin: 2px;
+}
+
+.form-check {
+    text-align: -webkit-left;
+    font-size: 15px;
+}
+
+.cart:hover {
+    border-style: dotted;
+    border-radius: 16px;
+}
+
+.cart3:hover {
+    border-style: dotted;
+    border-radius: 26px;
+}
+
+.td1 {
+    padding-top: 3.8% !important;
+}
